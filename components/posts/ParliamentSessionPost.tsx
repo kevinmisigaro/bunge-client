@@ -1,5 +1,8 @@
+import { useRouter } from "next/router";
 
 export default function ParliamentSessionPost() {
+  const { push } = useRouter();
+
   return (
     <div className="mb-10 border-b pb-4">
       <div className="text-lg font-medium">12th Parliament session</div>
@@ -12,7 +15,12 @@ export default function ParliamentSessionPost() {
         expedita unde suscipit itaque repellat. Sint amet cum delectus.
       </div>
 
-      <div className="text-sm mt-2 hover:cursor-pointer hover:underline">Read more...</div>
+      <div
+        onClick={() => push(`/posts/1`)}
+        className="text-sm mt-2 hover:cursor-pointer hover:underline"
+      >
+        Read more...
+      </div>
     </div>
   );
 }
