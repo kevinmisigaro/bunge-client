@@ -1,7 +1,24 @@
 import PlainLayout from "@/components/layouts/PlainLayout";
-import ParliamentSessionPost from "@/components/posts/ParliamentSessionPost";
+import ParliamentQuestionSummary from "@/components/posts/ParliamentQuestionSummary";
+import { IQuestion } from "@/types/Question";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function Index() {
+  const [questions, setQuestions] = useState<IQuestion[]>([]);
+
+  const loadData = async () => {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}question`
+    );
+    const result = await response.data;
+    setQuestions(result);
+  };
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
   return (
     <PlainLayout>
       <div
@@ -11,7 +28,8 @@ export default function Index() {
       <div className="py-10 px-24 mt-8 mb-20">
         <div className="flex flex-row">
           {/* Parliament sessions */}
-          <div className="basis-3/5">
+          {/* <div className="basis-3/5">
+
             <div className="text-3xl font-bold mb-10">
               Latest parliament sessions
             </div>
@@ -19,7 +37,18 @@ export default function Index() {
             <ParliamentSessionPost />
             <ParliamentSessionPost />
             <ParliamentSessionPost />
+          </div> */}
+
+          <div className="basis-3/5">
+            <div className="text-3xl font-bold mb-10">Maswali ya bunge</div>
+
+            <div className="flex flex-col gap-y-10">
+              {questions.map((x: IQuestion) => (
+               <div key={x.id}><ParliamentQuestionSummary question={x} /></div>
+              ))}
+            </div>
           </div>
+
           <div className="basis-2/5"></div>
         </div>
       </div>
